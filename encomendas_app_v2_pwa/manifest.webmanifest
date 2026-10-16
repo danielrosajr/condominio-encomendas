@@ -1,0 +1,27 @@
+{
+  "id": "./",
+  "name": "Encomendas do Condomínio",
+  "short_name": "Encomendas",
+  "description": "Avisos rápidos de encomendas para blocos A, B e C, com conferência obrigatória antes de compartilhar.",
+  "lang": "pt-BR",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f2f5fa",
+  "theme_color": "#4f46e5",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

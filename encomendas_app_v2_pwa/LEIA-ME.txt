@@ -1,0 +1,31 @@
+# Encomendas do Condomínio — v2.0
+
+Aplicativo de avisos de encomendas com seleção de apartamentos (A, B, C / 101 a 404), ajuste de quantidades, conferência obrigatória e envio via WhatsApp.
+
+## Para testar AGORA (sem instalar)
+Abra o arquivo `encomendas_condominio_v2.html` diretamente no navegador. Ele não precisa de internet nem de servidor para criar a lista. Não é o modo instalável completo.
+
+## Para instalar COMO APP no celular (PWA)
+1. Extraia este ZIP. Publique TODOS os arquivos da pasta `encomendas_app_v2` na raiz de um site HTTPS. É importante manter a pasta `icons` e os arquivos `index.html`, `manifest.webmanifest`, `sw.js`, `apple-touch-icon.png`.
+2. Um jeito gratuito: GitHub → crie um repositório público → adicione os arquivos da pasta (conteúdo dela, não a pasta externa) → Settings → Pages → Deploy from a branch → `main` e `/(root)` → Save. Abra o endereço HTTPS indicado em Pages.
+3. Android: abra o endereço no Chrome → menu ⋮ → “Instalar app” ou “Adicionar à tela inicial”. Se aparecer o botão “Instalar agora” dentro do app, também pode usá-lo.
+4. iPhone: abra no Safari → Compartilhar → “Adicionar à Tela de Início” → se disponível, ative “Abrir como App da Web” → Adicionar.
+5. Agora abra o ícone “Encomendas” na tela inicial. Uma vez carregado online, o app pode funcionar offline para preparar a lista. Para compartilhar via WhatsApp, é necessário acesso à internet.
+
+Importante: abrir o `index.html` com caminho `file://` não permite instalar um PWA completo. Precisa hospedar via HTTPS. Não há necessidade de criar conta ou pagar por servidor para este projeto estático.
+
+## Funcionamento
+- Toque nos apartamentos para marcar/desmarcar; no resumo, use + / − para quantidades.
+- Ao escolher WhatsApp, Copiar texto, Baixar imagem ou Compartilhar imagem, aparece a tela “Conferir encomendas”, listando TODOS os apartamentos e respectivas quantidades. Use “Voltar e corrigir” ou “Sim, ...”.
+- Na opção WhatsApp, depois da confirmação, ainda é necessário escolher o grupo e apertar Enviar. O miniapp NÃO envia mensagens sozinho e não acessa grupos/contatos.
+- A lista NÃO é apagada após compartilhar; limpe manualmente para evitar erros.
+- As marcações são salvas no próprio navegador/aparelho (localStorage). Não existe sincronização entre celulares e não há backend/banco de dados externo.
+- Se usar outra URL, outro navegador ou limpar os dados do site, as marcações anteriores poderão não aparecer. Ao atualizar no mesmo endereço/origem, o armazenamento anterior é preservado.
+
+## Segurança e privacidade
+- O site contém só código estático. Nenhum dado de encomendas é enviado a servidor pelo próprio app.
+- Se publicar no GitHub Pages, o código-fonte do site ficará público. Não coloque dados pessoais no repositório.
+- O envio da mensagem depende da confirmação de envio no WhatsApp, e a escolha do grupo ocorre no WhatsApp.
+
+## Publicar atualização
+Substitua os arquivos do site; carregue novamente online pelo menos uma vez para obter a nova versão. Se necessário, encerre e reabra o app. O cache offline usa `sw.js`.
