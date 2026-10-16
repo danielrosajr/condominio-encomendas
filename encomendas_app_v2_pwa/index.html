@@ -92,6 +92,21 @@
     .btn-small{padding:9px 7px;min-height:40px;border-radius:10px;background:#fff;border:1px solid #d6deeb;color:#41516c;font-size:12px;font-weight:750;display:flex;align-items:center;justify-content:center;gap:6px}
     .btn-small svg{width:16px;height:16px}.extras-note{font-size:11px;color:#7b899e;margin:0 14px 14px}
     .footnote{margin:15px auto 0;text-align:center;color:#8b97a8;font-size:11px;max-width:600px}
+    .auto-clear{padding:15px 22px 20px;border-top:1px solid #e8edf5;background:#fff}
+    .auto-clear-head{font-size:13px;font-weight:850;color:#344767;display:flex;align-items:center;gap:7px;margin-bottom:10px}
+    .auto-fields{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+    .control-select,.control-input{border:1px solid #d6dfec;color:#263a55;background:#fff;border-radius:10px;padding:10px 11px;font-size:13px;min-height:43px;max-width:100%;font-family:inherit}
+    .control-select{flex:1;min-width:160px}.control-input{width:140px;max-width:100%}.control-select:focus-visible,.control-input:focus-visible{outline:3px solid #c7d2fe;outline-offset:1px}
+    .auto-clear #cleanupHours{width:95px}.auto-clear #cleanupTime{width:140px}
+    .auto-help{font-size:11px;line-height:1.5;color:#697994;margin:9px 0 0}
+    .auto-due{font-size:11px;font-weight:750;color:#26765b;margin-top:9px;min-height:0}
+    .fixed-note{background:#f8faff;border:1px solid #e4eaf3;border-radius:13px;padding:12px;margin:8px 0 14px}
+    .fixed-note .toggle-row{margin-bottom:10px;font-weight:700;color:#344767}
+    .fixed-note .control-select{width:100%;margin:0 0 9px}
+    .fixed-note textarea.message-input{min-height:66px;max-height:130px;resize:vertical}
+    .note-disabled{opacity:.55}
+    .review-note{margin-top:12px;border:1px solid #dae6f6;background:#f5f8ff;border-radius:12px;padding:11px 12px;font-size:12px;color:#3e526d;white-space:pre-wrap;overflow-wrap:anywhere}
+    .review-note strong{display:block;margin-bottom:4px;color:#263d5c}
     /* Instalação e confirmação visual */
     .install-strip{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 15px;margin:0 0 18px;background:#fff;border:1px solid #dce6f6;border-radius:16px;box-shadow:0 4px 16px #14233d0c}
     .install-strip .install-text{font-size:12px;color:#5e6c84;line-height:1.4}.install-strip .install-text strong{color:#263855;display:block;font-size:13px}
@@ -130,6 +145,7 @@
       .card-head{padding:19px 17px 14px}h2{font-size:20px}.tabs{padding:0 17px 17px;gap:7px}.tab{min-height:66px}
       .floor-list{padding:0 16px 10px}.floor{margin-bottom:19px}.unit-grid{gap:8px}.unit{min-height:66px;border-radius:12px}.unit .apt{font-size:19px}
       .tip{margin:0 16px 17px;padding:12px}.summary,.settings,.preview-wrap{padding-left:17px;padding-right:17px}.summary-bottom{padding:13px 17px 15px}
+      .auto-clear{padding:14px 17px 17px}.auto-fields{align-items:stretch}.control-select{min-width:0}.auto-clear .control-select{flex:1 1 160px}
       .actions{display:none}.extras{margin:0 17px 19px}.mobilebar{position:fixed;bottom:0;left:0;right:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:10px;background:#fff;padding:12px 14px calc(12px + env(safe-area-inset-bottom));border-top:1px solid #e1e7ef;box-shadow:0 -9px 30px #1e334515;z-index:80}
       .mobilebar .btn{min-height:51px}.toast{bottom:95px}.preview{max-height:210px}
     }
@@ -170,19 +186,56 @@
         <section class="card" aria-labelledby="summaryTitle">
           <div class="card-head"><span class="eyebrow"><span class="step">2</span> Confira</span><h2 id="summaryTitle">Lista de encomendas</h2><p class="description">Tudo o que você marcou aparece aqui, organizado por bloco.</p></div>
           <div class="summary" id="summary" aria-live="polite"></div>
-          <div class="summary-bottom"><div class="stats"><div><div class="stat-n" id="aptTotal">0</div><div class="stat-l">apartamentos</div></div><div class="divider"></div><div><div class="stat-n" id="pkgTotal">0</div><div class="stat-l">encomendas</div></div></div><button type="button" class="textbtn" id="clearBtn" disabled>Limpar lista</button></div>
+          <div class="summary-bottom"><div class="stats"><div><div class="stat-n" id="aptTotal">0</div><div class="stat-l">apartamentos</div></div><div class="divider"></div><div><div class="stat-n" id="pkgTotal">0</div><div class="stat-l">encomendas</div></div></div><button type="button" class="textbtn" id="clearBtn" disabled>Limpar tudo</button></div>
+          <div class="auto-clear">
+            <label class="auto-clear-head" for="cleanupMode">⏱️ Limpeza automática da lista</label>
+            <div class="auto-fields">
+              <select id="cleanupMode" class="control-select" aria-label="Quando limpar automaticamente">
+                <option value="off">Não limpar automaticamente</option>
+                <option value="hours">Após X horas</option>
+                <option value="daily">Todos os dias em um horário</option>
+              </select>
+              <label id="cleanupHoursLabel" for="cleanupHours" hidden>
+                <span class="field-label">Horas</span>
+                <input type="number" id="cleanupHours" class="control-input" min="0.5" max="168" step="0.5" value="24" inputmode="decimal">
+              </label>
+              <label id="cleanupTimeLabel" for="cleanupTime" hidden>
+                <span class="field-label">Horário</span>
+                <input type="time" id="cleanupTime" class="control-input" value="20:00">
+              </label>
+            </div>
+            <p class="auto-help">Apaga apenas as seleções, não as mensagens e preferências. Se o app estiver fechado, limpa ao abrir novamente depois do prazo.</p>
+            <div class="auto-due" id="cleanupDue" aria-live="polite"></div>
+          </div>
         </section>
 
         <section class="card" aria-labelledby="sendTitle">
           <div class="card-head"><span class="eyebrow"><span class="step">3</span> Envie</span><h2 id="sendTitle">Pronto para avisar!</h2><p class="description">Ao tocar em WhatsApp ou Copiar, você confere tudo antes de continuar.</p></div>
-          <div class="settings"><label class="toggle-row"><input id="includeDate" type="checkbox" checked> Incluir data e horário do aviso</label><label for="customNote" class="field-label">Recado no final (opcional)</label><input id="customNote" class="message-input" type="text" maxlength="200" placeholder="Ex.: Retirada na portaria." value="Favor retirar na portaria."></div>
+          <div class="settings">
+            <label class="toggle-row"><input id="includeDate" type="checkbox" checked> Incluir data e horário do aviso</label>
+            <div class="fixed-note">
+              <label class="toggle-row"><input id="noteEnabled" type="checkbox" checked> Incluir recado fixo em todos os avisos</label>
+              <label for="notePreset" class="field-label">Mensagem pronta (opcional)</label>
+              <select id="notePreset" class="control-select">
+                <option value="custom">Personalizar mensagem</option>
+                <option value="portaria">Favor retirar na portaria.</option>
+                <option value="17h">Retirar as encomendas até as 17h.</option>
+                <option value="18h">Retirar as encomendas até as 18h.</option>
+                <option value="documento">Apresente identificação ao retirar a encomenda.</option>
+                <option value="proximoDia">Após o horário de funcionamento, retirar no próximo dia útil.</option>
+              </select>
+              <label for="customNote" class="field-label">Edite como quiser</label>
+              <textarea id="customNote" class="message-input" maxlength="200" placeholder="Ex.: Favor retirar as encomendas até as 17h."></textarea>
+              <p class="auto-help">Este recado fica salvo neste celular e aparece nos próximos avisos, inclusive nas imagens.</p>
+            </div>
+          </div>
           <div class="preview-wrap"><div class="preview-label"><span>Prévia da mensagem</span><span id="previewCount" style="color:#8390a3;font-weight:600">0 apartamentos</span></div><pre class="preview placeholder" id="preview" aria-live="polite">Selecione pelo menos um apartamento para criar o aviso.</pre></div>
           <div class="actions"><button class="btn btn-alt copy-action" type="button" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>Copiar texto</button><button class="btn btn-main share-action" type="button" disabled><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5a11.65 11.65 0 0 0-18.3 14L.6 23.4l6-1.6A11.64 11.64 0 1 0 20.5 3.5ZM12.3 21a9.6 9.6 0 0 1-4.9-1.35l-.36-.21-3.55.93.95-3.46-.24-.38a9.62 9.62 0 1 1 8.1 4.47Zm5.28-7.12c-.29-.15-1.7-.84-1.97-.94-.26-.1-.45-.15-.64.14-.2.3-.74.94-.91 1.14-.16.2-.33.22-.62.07-.28-.14-1.2-.44-2.28-1.4-.85-.75-1.42-1.68-1.58-1.97-.17-.28-.02-.44.13-.58.13-.13.29-.34.43-.5.14-.17.19-.28.28-.47.1-.2.05-.36-.02-.5-.07-.15-.64-1.55-.88-2.12-.23-.56-.47-.48-.64-.49h-.55c-.19 0-.5.07-.77.36-.26.29-1 1-1 2.42s1.03 2.8 1.17 3c.14.19 2.01 3.08 4.87 4.32.68.3 1.22.48 1.64.62.7.22 1.34.19 1.85.11.56-.09 1.7-.7 1.94-1.37.24-.67.24-1.25.17-1.37-.08-.13-.27-.2-.56-.35Z"/></svg>WhatsApp</button></div>
           <details class="extras"><summary>Opções de imagem (PNG)</summary><div class="extras-body"><button type="button" class="btn-small" id="downloadImage" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v12m-4-4 4 4 4-4M4 17v3h16v-3"/></svg>Baixar imagem</button><button type="button" class="btn-small" id="shareImage" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.7 10.7 6.6-4.2m-6.6 6.8 6.6 4.2"/></svg>Compartilhar imagem</button></div><p class="extras-note">Se o celular não permitir compartilhar a imagem diretamente, ela será baixada para você anexar no grupo.</p></details>
         </section>
       </div>
     </main>
-    <p class="footnote">Versão 2.0 • Funciona no navegador e, depois de instalado, offline para montar avisos. Nenhuma lista é enviada a servidores. Quando o navegador permite, as marcações ficam salvas somente neste aparelho, até serem apagadas.</p>
+    <p class="footnote">Versão 3.0 • Funciona no navegador e, depois de instalado, offline para montar avisos. As seleções, os recados e as configurações ficam somente neste aparelho; uma lista pode expirar conforme o prazo escolhido.</p>
   </div>
 
   <div class="mobilebar" role="group" aria-label="Ações rápidas"><button class="btn btn-alt copy-action" type="button" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>Copiar texto</button><button class="btn btn-main share-action" type="button" disabled><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5a11.65 11.65 0 0 0-18.3 14L.6 23.4l6-1.6A11.64 11.64 0 1 0 20.5 3.5ZM12.3 21a9.6 9.6 0 0 1-4.9-1.35l-.36-.21-3.55.93.95-3.46-.24-.38a9.62 9.62 0 1 1 8.1 4.47Zm5.28-7.12c-.29-.15-1.7-.84-1.97-.94-.26-.1-.45-.15-.64.14-.2.3-.74.94-.91 1.14-.16.2-.33.22-.62.07-.28-.14-1.2-.44-2.28-1.4-.85-.75-1.42-1.68-1.58-1.97-.17-.28-.02-.44.13-.58.13-.13.29-.34.43-.5.14-.17.19-.28.28-.47.1-.2.05-.36-.02-.5-.07-.15-.64-1.55-.88-2.12-.23-.56-.47-.48-.64-.49h-.55c-.19 0-.5.07-.77.36-.26.29-1 1-1 2.42s1.03 2.8 1.17 3c.14.19 2.01 3.08 4.87 4.32.68.3 1.22.48 1.64.62.7.22 1.34.19 1.85.11.56-.09 1.7-.7 1.94-1.37.24-.67.24-1.25.17-1.37-.08-.13-.27-.2-.56-.35Z"/></svg>WhatsApp</button></div>
@@ -192,17 +245,19 @@
     <div class="walk-step"><div class="walk-n">1</div><div><strong>Marque os apartamentos</strong><p>Escolha o bloco A, B ou C. Toque em cada apartamento que recebeu encomenda. Ele ficará verde.</p></div></div>
     <div class="walk-step"><div class="walk-n">2</div><div><strong>Confira a quantidade</strong><p>No resumo, use + ou − se algum apartamento tiver mais de uma encomenda. É possível corrigir tudo antes de enviar.</p></div></div>
     <div class="walk-step"><div class="walk-n">3</div><div><strong>Confirme a lista</strong><p>Toque em WhatsApp, Copiar ou Imagem. Aparece uma conferência final com cada apartamento e a quantidade de encomendas. Só continua após você confirmar.</p></div></div>
-    <div class="walk-step"><div class="walk-n">4</div><div><strong>Comece outra lista</strong><p>Depois de enviar e conferir o aviso, toque em Limpar lista. Nada é apagado automaticamente.</p></div></div>
+    <div class="walk-step"><div class="walk-n">4</div><div><strong>Limpe com um toque ou automaticamente</strong><p>Toque em “Limpar tudo” ou configure “Após X horas” / “Todos os dias em um horário”. Ao vencer, a lista é limpa quando o app estiver aberto ou ao reabri-lo.</p></div></div>
+    <div class="walk-step"><div class="walk-n">5</div><div><strong>Defina um recado fixo</strong><p>Em “Pronto para avisar”, ative ou desative o recado. Escolha um texto pronto, como “Retirar até as 17h”, ou escreva sua própria mensagem. Ela ficará salva.</p></div></div>
     <div style="font-size:12px;color:#5c6d87;margin-top:16px">📱 Dica: no celular você pode instalar na tela inicial pelo botão <strong>Como instalar</strong>.</div><button type="button" class="modal-cta" id="startBtn">Entendi, começar</button>
   </div></dialog>
 
-  <dialog id="clearDialog" aria-labelledby="clearTitle"><div class="modal-body"><div class="modal-top"><h2 id="clearTitle">Limpar a lista?</h2><button type="button" class="icon-close" data-close="clearDialog" aria-label="Fechar confirmação">×</button></div><p class="modal-text">Todos os apartamentos selecionados e suas quantidades serão desmarcados. Faça isso depois de enviar a mensagem no grupo.</p><div class="modal-actions"><button type="button" class="btn btn-alt" data-close="clearDialog">Cancelar</button><button type="button" class="btn modal-cta warn" id="confirmClear" style="margin-top:0">Sim, limpar</button></div></div></dialog>
+  <dialog id="clearDialog" aria-labelledby="clearTitle"><div class="modal-body"><div class="modal-top"><h2 id="clearTitle">Limpar a lista?</h2><button type="button" class="icon-close" data-close="clearDialog" aria-label="Fechar confirmação">×</button></div><p class="modal-text">Todos os apartamentos e quantidades serão desmarcados. Seu recado fixo e suas configurações continuarão salvos.</p><div class="modal-actions"><button type="button" class="btn btn-alt" data-close="clearDialog">Cancelar</button><button type="button" class="btn modal-cta warn" id="confirmClear" style="margin-top:0">Sim, limpar</button></div></div></dialog>
 
   <dialog id="reviewDialog" aria-labelledby="reviewTitle"><div class="modal-body">
     <div class="modal-top"><h2 id="reviewTitle">✅ Conferir encomendas</h2><button type="button" class="icon-close" data-close="reviewDialog" aria-label="Fechar conferência">×</button></div>
     <div class="review-intro" id="reviewIntro">Confira todos os apartamentos antes de continuar.</div>
     <div class="review-stats"><div><strong id="reviewApts">0</strong>Apartamentos</div><div><strong id="reviewPackages">0</strong>Encomendas</div></div>
     <div id="reviewEntries" class="review-entries" role="list" aria-label="Apartamentos que receberam encomendas"></div>
+    <div class="review-note" id="reviewNote" hidden><strong>Recado que será enviado:</strong><span id="reviewNoteText"></span></div>
     <p class="review-question">Isso está certo?</p>
     <p class="review-help">Se houver algo errado, volte e corrija. Nada é enviado automaticamente.</p>
     <div class="review-controls"><button class="btn btn-alt" id="reviewBack" type="button">Voltar e corrigir</button><button class="btn review-confirm" id="reviewConfirm" type="button">Sim, continuar</button></div>
@@ -227,7 +282,14 @@
       const $ = id => document.getElementById(id);
       const validUnit = id => typeof id === 'string' && /^[1-4]0[1-4][ABC]$/.test(id);
       const naturalOrder = (a,b) => BLOCKS.indexOf(a.slice(-1)) - BLOCKS.indexOf(b.slice(-1)) || Number(a.slice(0,3)) - Number(b.slice(0,3));
-      const initial = { selected:{}, activeBlock:'A', includeDate:true, note:'Favor retirar na portaria.' };
+      const NOTE_PRESETS = {
+        portaria: 'Favor retirar na portaria.',
+        '17h': 'Favor retirar as encomendas até as 17h.',
+        '18h': 'Favor retirar as encomendas até as 18h.',
+        documento: 'Apresente identificação ao retirar a encomenda.',
+        proximoDia: 'Após o horário de funcionamento, retirar no próximo dia útil.'
+      };
+      const initial = { selected:{}, activeBlock:'A', includeDate:true, note:'Favor retirar na portaria.', noteEnabled:true, cleanupMode:'off', cleanupHours:24, cleanupTime:'20:00', selectionStartedAt:null };
       let state = {...initial};
       try {
         const data = JSON.parse(localStorage.getItem(STORAGE) || '{}');
@@ -239,8 +301,45 @@
         if(BLOCKS.includes(data.activeBlock)) state.activeBlock = data.activeBlock;
         if(typeof data.includeDate === 'boolean') state.includeDate = data.includeDate;
         if(typeof data.note === 'string') state.note = data.note.slice(0,200);
+        state.noteEnabled = typeof data.noteEnabled === 'boolean' ? data.noteEnabled : Boolean(state.note.trim());
+        if(['off','hours','daily'].includes(data.cleanupMode)) state.cleanupMode=data.cleanupMode;
+        if(Number.isFinite(data.cleanupHours) && data.cleanupHours>=0.5 && data.cleanupHours<=168) state.cleanupHours=data.cleanupHours;
+        if(typeof data.cleanupTime==='string' && /^([01]\d|2[0-3]):[0-5]\d$/.test(data.cleanupTime)) state.cleanupTime=data.cleanupTime;
+        if(Number.isFinite(data.selectionStartedAt) && data.selectionStartedAt>0 && data.selectionStartedAt<=Date.now()+300000) state.selectionStartedAt=data.selectionStartedAt;
       } catch(_) { /* Bloqueio de armazenamento local não impede o funcionamento. */ }
+      // Migração: listas da versão 2 não possuíam horário de início. O prazo só começa nesta atualização.
+      if(Object.keys(state.selected).length && !state.selectionStartedAt) state.selectionStartedAt=Date.now();
+      if(!Object.keys(state.selected).length) state.selectionStartedAt=null;
       const persist = () => { try { localStorage.setItem(STORAGE, JSON.stringify(state)); } catch(_) {} };
+      function cleanupDeadline(){
+        if(!state.selectionStartedAt || state.cleanupMode==='off') return null;
+        if(state.cleanupMode==='hours') return state.selectionStartedAt + state.cleanupHours*3600000;
+        const date=new Date(state.selectionStartedAt);
+        const [hours,minutes]=state.cleanupTime.split(':').map(Number);
+        date.setHours(hours,minutes,0,0);
+        if(date.getTime()<=state.selectionStartedAt) date.setDate(date.getDate()+1);
+        return date.getTime();
+      }
+      function markListStartIfNeeded(){if(Object.keys(state.selected).length && !state.selectionStartedAt)state.selectionStartedAt=Date.now();if(!Object.keys(state.selected).length)state.selectionStartedAt=null;}
+      function resetList(){state.selected={};state.selectionStartedAt=null;}
+      function renderCleanup(){
+        $('cleanupMode').value=state.cleanupMode;
+        $('cleanupHoursLabel').hidden=state.cleanupMode!=='hours';
+        $('cleanupTimeLabel').hidden=state.cleanupMode!=='daily';
+        $('cleanupHours').value=String(state.cleanupHours);
+        $('cleanupTime').value=state.cleanupTime;
+        const deadline=cleanupDeadline();
+        $('cleanupDue').textContent=deadline ? `Esta lista será limpa ${new Intl.DateTimeFormat('pt-BR',{dateStyle:'short',timeStyle:'short'}).format(new Date(deadline))}.` : (state.cleanupMode==='off'?'As marcações só serão apagadas quando você tocar em Limpar tudo.':'O prazo começará ao selecionar a primeira encomenda.');
+      }
+      function expireSelections(){
+        const deadline=cleanupDeadline();
+        if(!deadline || !Object.keys(state.selected).length || Date.now()<deadline)return false;
+        resetList();
+        if($('reviewDialog').open){pendingAction=null;closeDialog($('reviewDialog'));}
+        render();
+        toast('Lista anterior limpa automaticamente. Pronta para um novo aviso.');
+        return true;
+      }
       let toastTimeout;
       const toast = msg => {
         const t = $('toast'); t.textContent = msg; t.classList.add('show');
@@ -261,7 +360,7 @@
           group.forEach(([id,n])=>lines.push(`• ${id}${n>1 ? ` (${n} encomendas)` : ''}`));
         }
         lines.push('',`📋 ${labelCount(aptEntries().length,'apartamento','apartamentos')} • ${labelCount(totalPackages(),'encomenda','encomendas')}`);
-        if(state.note.trim()) lines.push('',`ℹ️ ${state.note.trim()}`);
+        if(state.noteEnabled && state.note.trim()) lines.push('',`ℹ️ ${state.note.trim()}`);
         return lines.join('\n');
       };
       function renderFloors(){
@@ -327,12 +426,12 @@
         $('preview').textContent=msg || 'Selecione pelo menos um apartamento para criar o aviso.';
         $('preview').classList.toggle('placeholder', !msg);
       }
-      const render=()=>{renderFloors();renderSummary();persist()};
+      const render=()=>{renderFloors();renderSummary();renderCleanup();persist()};
       $('floorList').addEventListener('click',e=>{
         const btn=e.target.closest('[data-unit]');if(!btn)return;
         const id=btn.dataset.unit;
         if(state.selected[id]) delete state.selected[id]; else state.selected[id]=1;
-        render();
+        markListStartIfNeeded();render();
       });
       $('blockTabs').addEventListener('click',e=>{const btn=e.target.closest('[data-block]');if(!btn)return;state.activeBlock=btn.dataset.block;renderFloors();persist()});
       $('summary').addEventListener('click',e=>{
@@ -341,12 +440,30 @@
         if(!validUnit(id)||!state.selected[id])return;
         const next=state.selected[id]+delta;
         if(next <= 0) delete state.selected[id];else state.selected[id]=Math.min(next,99);
-        render();
+        markListStartIfNeeded();render();
       });
       $('includeDate').checked=state.includeDate;
+      $('noteEnabled').checked=state.noteEnabled;
       $('customNote').value=state.note;
+      $('notePreset').value=Object.keys(NOTE_PRESETS).find(key=>NOTE_PRESETS[key]===state.note)||'custom';
       $('includeDate').addEventListener('change',e=>{state.includeDate=e.target.checked;renderSummary();persist()});
-      $('customNote').addEventListener('input',e=>{state.note=e.target.value;renderSummary();persist()});
+      $('noteEnabled').addEventListener('change',e=>{state.noteEnabled=e.target.checked;renderSummary();persist()});
+      $('customNote').addEventListener('input',e=>{state.note=e.target.value; $('notePreset').value=Object.keys(NOTE_PRESETS).find(key=>NOTE_PRESETS[key]===state.note)||'custom';renderSummary();persist()});
+      $('notePreset').addEventListener('change',e=>{
+        if(e.target.value==='custom'){ $('customNote').focus();return; }
+        state.note=NOTE_PRESETS[e.target.value]||state.note;state.noteEnabled=true;
+        $('customNote').value=state.note;$('noteEnabled').checked=true;renderSummary();persist();
+      });
+      $('cleanupMode').addEventListener('change',e=>{state.cleanupMode=e.target.value;if(state.selectionStartedAt)state.selectionStartedAt=Date.now();renderCleanup();persist()});
+      $('cleanupHours').addEventListener('change',e=>{
+        const n=Number(e.target.value);if(Number.isFinite(n) && n>=0.5 && n<=168){state.cleanupHours=n;if(state.selectionStartedAt)state.selectionStartedAt=Date.now();persist();}
+        else toast('Informe de 0,5 a 168 horas.');
+        renderCleanup();
+      });
+      $('cleanupTime').addEventListener('change',e=>{
+        if(/^([01]\d|2[0-3]):[0-5]\d$/.test(e.target.value)){state.cleanupTime=e.target.value;if(state.selectionStartedAt)state.selectionStartedAt=Date.now();persist();}
+        renderCleanup();
+      });
 
       async function copyText(){
         const msg=message();if(!msg)return;
@@ -395,7 +512,7 @@
           return lines;
         };
         const groups=BLOCKS.map(block=>({block,items:entries.filter(([id])=>id.endsWith(block))})).filter(g=>g.items.length);
-        const noteLines=state.note.trim()?wrapText(state.note.trim(),inner-46,'500 25px system-ui'):[];
+        const noteLines=state.noteEnabled && state.note.trim()?wrapText(state.note.trim(),inner-46,'500 25px system-ui'):[];
         const headerHeight=state.includeDate?194:154;
         const blockHeights=groups.map(g=>80+Math.ceil(g.items.length/4)*95+29);
         const noteHeight=noteLines.length?49+noteLines.length*38+43:0;
@@ -487,6 +604,8 @@
           section.append(head,grid);root.append(section);
         }
         root.scrollTop=0;
+        $('reviewNote').hidden=!(state.noteEnabled && state.note.trim());
+        $('reviewNoteText').textContent=state.noteEnabled ? state.note.trim() : '';
         openDialog($('reviewDialog'));
       }
       $('reviewBack').addEventListener('click',()=>{pendingAction=null;closeDialog($('reviewDialog'));});
@@ -528,8 +647,13 @@
       $('startBtn').addEventListener('click',()=>{closeDialog($('helpDialog'));try{localStorage.setItem('avisos_condominio_tutorial_v1','yes')}catch(_){}});
       document.querySelectorAll('[data-close]').forEach(btn=>btn.addEventListener('click',()=>closeDialog($(btn.dataset.close))));
       $('clearBtn').addEventListener('click',()=>openDialog($('clearDialog')));
-      $('confirmClear').addEventListener('click',()=>{state.selected={};render();closeDialog($('clearDialog'));toast('Lista limpa! Pronta para um novo aviso.');});
-      render();
+      $('confirmClear').addEventListener('click',()=>{resetList();render();closeDialog($('clearDialog'));toast('Lista limpa! Pronta para um novo aviso.');});
+      // O navegador não executa temporizadores com o app fechado. Ao voltar, conferimos o prazo salvo.
+      window.addEventListener('focus',expireSelections);
+      window.addEventListener('pageshow',expireSelections);
+      document.addEventListener('visibilitychange',()=>{if(!document.hidden)expireSelections();});
+      setInterval(expireSelections,30000);
+      if(!expireSelections())render();
       // O tutorial é acessível a qualquer momento; na primeira visita é aberto automaticamente.
       try{if(!localStorage.getItem('avisos_condominio_tutorial_v1'))openDialog($('helpDialog'))}catch(_){}
     })();
