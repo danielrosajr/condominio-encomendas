@@ -1,5 +1,5 @@
-/* Encomendas do Condomínio — cache offline v4.0.0 */
-const CACHE_NAME = 'encomendas-condominio-v4-20261015';
+/* Encomendas do Condomínio — cache offline v5.0.0 */
+const CACHE_NAME = 'encomendas-condominio-v5-20261015';
 const ASSETS = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png', './apple-touch-icon.png'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS)).then(() => self.skipWaiting()));

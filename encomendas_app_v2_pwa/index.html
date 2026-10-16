@@ -271,6 +271,49 @@
       .tab-name{font-size:14px}
     }
 
+
+    /* V5: captura guiada, acessível a tamanhos de fonte grandes. */
+    .photo-section{margin:0 0 18px}
+    .photo-panel{padding:0 22px 22px}
+    .photo-progress-track{height:13px;background:#e1e9f4;border-radius:20px;overflow:hidden;margin:12px 0 12px}
+    .photo-progress-fill{height:100%;width:0;background:#158662;transition:width .2s}
+    .photo-status{font-weight:800;font-size:16px;color:var(--ink)}
+    .photo-help{color:var(--muted);font-size:13px;margin:9px 0 17px;line-height:1.5}
+    .photo-actions{display:grid;gap:10px}
+    .photo-big{min-height:59px;width:100%;border:0;border-radius:15px;background:#4742d4;color:#fff;font-size:17px;font-weight:850;padding:13px 14px;display:flex;align-items:center;justify-content:center;text-align:center;gap:9px}
+    .photo-big:disabled{opacity:.5}
+    .photo-secondary{background:var(--surface);border:2px solid var(--line);color:var(--ink)}
+    .photo-rowinfo{margin-top:10px;border:1px solid var(--line);border-radius:12px;background:var(--surface2);padding:11px;font-size:12px;color:var(--muted)}
+    .photo-guide{width:min(96vw,560px);max-height:calc(100dvh - 16px);overflow:auto}
+    .photo-guide .modal-body{padding:22px}
+    .photo-guide h2{font-size:clamp(20px,4vw,27px);line-height:1.18}
+    .photo-step{border:2px solid #a5b4fc;border-radius:18px;background:#eef2ff;padding:17px 15px;margin-top:16px;text-align:center}
+    .photo-step .num{font-size:clamp(39px,9vw,62px);font-weight:950;letter-spacing:-1.4px;color:#252468;line-height:1.15}
+    .photo-step .sub{font-size:clamp(14px,3.7vw,18px);font-weight:800;color:#3c4280}
+    .photo-preview{display:grid;place-items:center;border:2px dashed #b7c2d7;background:#f5f7fc;border-radius:16px;min-height:125px;margin:15px 0 12px;overflow:hidden}
+    .photo-preview img{display:block;width:100%;max-height:38vh;object-fit:contain}
+    .photo-preview .missing{color:#687790;padding:20px;font-size:16px;font-weight:750;text-align:center}
+    .photo-capture-buttons{display:grid;gap:10px}
+    .photo-label{min-height:64px;font-size:18px;font-weight:850;border-radius:14px;padding:14px 16px;background:#15835f;color:#fff;display:flex;justify-content:center;align-items:center;text-align:center;cursor:pointer}
+    .photo-label.secondary{background:var(--surface);border:2px solid var(--line);color:var(--ink);font-size:16px}
+    .photo-file-input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+    .photo-nav{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+    .photo-nav button{font-size:17px;min-height:56px}
+    .photo-warning{font-size:13px;color:var(--muted);line-height:1.4;margin:11px 0 0}
+    .photo-error{background:#fff2f2;border:1px solid #edb1b1;color:#8c1737;border-radius:12px;padding:10px;font-weight:700;font-size:14px;margin:11px 0 0}
+    .photo-close{margin-top:14px;width:100%;min-height:49px;border:0;background:transparent;color:var(--muted);font-size:16px;font-weight:750}
+    .photo-counter-badge{font-size:15px;font-weight:800;color:var(--brand-dark);padding:7px 11px;border:1px solid var(--line);background:var(--surface2);border-radius:11px}
+    [data-theme="dark"] .photo-progress-track{background:#425067}
+    [data-theme="dark"] .photo-step{background:#353454;border-color:#8687d8}
+    [data-theme="dark"] .photo-step .num{color:#f2efff}
+    [data-theme="dark"] .photo-step .sub{color:#d9d9ff}
+    [data-theme="dark"] .photo-preview{background:#263248;border-color:#62718c}
+    [data-theme="dark"] .photo-preview .missing{color:#cbd6ea}
+    [data-theme="dark"] .photo-label.secondary{background:#303c4f;color:#f7f9ff;border-color:#566981}
+    [data-theme="dark"] .photo-counter-badge{color:#ece7ff}
+    [data-theme="dark"] .photo-error{background:#4d293a;color:#ffe1e8;border-color:#a4627c}
+    @media (max-width:570px){.photo-panel{padding:0 17px 19px}.photo-guide{width:100vw;max-height:100dvh;border-radius:16px 16px 0 0;margin:auto 0 0}.photo-guide .modal-body{padding:19px 17px calc(24px + env(safe-area-inset-bottom))}.photo-label{min-height:70px}.photo-preview img{max-height:32vh}}
+    @media (max-width:350px){.photo-nav{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
@@ -332,13 +375,28 @@
                 <input type="time" id="cleanupTime" class="control-input" value="20:00">
               </label>
             </div>
-            <p class="auto-help">Apaga apenas as seleções, não as mensagens e preferências. Se o app estiver fechado, limpa ao abrir novamente depois do prazo.</p>
+            <p class="auto-help">Apaga as seleções e fotos da lista, não as mensagens e preferências. Se o app estiver fechado, limpa ao abrir novamente depois do prazo.</p>
             <div class="auto-due" id="cleanupDue" aria-live="polite"></div>
           </div>
         </section>
 
+
+        <section class="card photo-section" aria-labelledby="photosTitle" id="photosSection">
+          <div class="card-head"><span class="eyebrow"><span class="step">3</span> Fotografe</span><h2 id="photosTitle">Uma foto por encomenda</h2><p class="description">O aplicativo mostra exatamente qual pacote fotografar. É opcional usar este recurso, mas só permite compartilhar as fotos quando todas estiverem prontas.</p></div>
+          <div class="photo-panel">
+            <div class="photo-status" id="photoStatus" aria-live="polite">Marque os apartamentos para começar.</div>
+            <div class="photo-progress-track" role="progressbar" id="photoProgress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Progresso de fotos"><div class="photo-progress-fill" id="photoProgressFill"></div></div>
+            <p class="photo-help" id="photoHelp">Se 204B tiver 2 encomendas, você tirará 2 fotos, uma de cada pacote.</p>
+            <div class="photo-actions">
+              <button type="button" id="startPhotos" class="photo-big" disabled>📷 Fotografar encomendas</button>
+              <button type="button" id="sharePhotos" class="photo-big photo-secondary" disabled>📤 Conferir e compartilhar fotos</button>
+            </div>
+            <div class="photo-rowinfo" id="photoStorageNote">🔒 As fotos ficam apenas neste aparelho, não no GitHub ou em um servidor. Evite fotografar dados pessoais das etiquetas desnecessariamente.</div>
+          </div>
+        </section>
+
         <section class="card" aria-labelledby="sendTitle">
-          <div class="card-head"><span class="eyebrow"><span class="step">3</span> Envie</span><h2 id="sendTitle">Pronto para avisar!</h2><p class="description">Ao tocar em WhatsApp ou Copiar, você confere tudo antes de continuar.</p></div>
+          <div class="card-head"><span class="eyebrow"><span class="step">4</span> Envie</span><h2 id="sendTitle">Pronto para avisar!</h2><p class="description">Ao tocar em WhatsApp ou Copiar, você confere tudo antes de continuar.</p></div>
           <div class="settings">
             <label class="toggle-row"><input id="includeDate" type="checkbox" checked> Incluir data e horário do aviso</label>
             <div class="fixed-note">
@@ -358,28 +416,29 @@
             </div>
           </div>
           <div class="preview-wrap"><div class="preview-label"><span>Prévia da mensagem</span><span id="previewCount" style="color:#8390a3;font-weight:600">0 apartamentos</span></div><pre class="preview placeholder" id="preview" aria-live="polite">Selecione pelo menos um apartamento para criar o aviso.</pre></div>
-          <div class="actions"><button class="btn btn-alt copy-action" type="button" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>Copiar texto</button><button class="btn btn-main share-action" type="button" disabled><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5a11.65 11.65 0 0 0-18.3 14L.6 23.4l6-1.6A11.64 11.64 0 1 0 20.5 3.5ZM12.3 21a9.6 9.6 0 0 1-4.9-1.35l-.36-.21-3.55.93.95-3.46-.24-.38a9.62 9.62 0 1 1 8.1 4.47Zm5.28-7.12c-.29-.15-1.7-.84-1.97-.94-.26-.1-.45-.15-.64.14-.2.3-.74.94-.91 1.14-.16.2-.33.22-.62.07-.28-.14-1.2-.44-2.28-1.4-.85-.75-1.42-1.68-1.58-1.97-.17-.28-.02-.44.13-.58.13-.13.29-.34.43-.5.14-.17.19-.28.28-.47.1-.2.05-.36-.02-.5-.07-.15-.64-1.55-.88-2.12-.23-.56-.47-.48-.64-.49h-.55c-.19 0-.5.07-.77.36-.26.29-1 1-1 2.42s1.03 2.8 1.17 3c.14.19 2.01 3.08 4.87 4.32.68.3 1.22.48 1.64.62.7.22 1.34.19 1.85.11.56-.09 1.7-.7 1.94-1.37.24-.67.24-1.25.17-1.37-.08-.13-.27-.2-.56-.35Z"/></svg>WhatsApp</button></div>
+          <div class="actions"><button class="btn btn-alt copy-action" type="button" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>Copiar texto</button><button class="btn btn-main share-action" type="button" disabled><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5a11.65 11.65 0 0 0-18.3 14L.6 23.4l6-1.6A11.64 11.64 0 1 0 20.5 3.5ZM12.3 21a9.6 9.6 0 0 1-4.9-1.35l-.36-.21-3.55.93.95-3.46-.24-.38a9.62 9.62 0 1 1 8.1 4.47Zm5.28-7.12c-.29-.15-1.7-.84-1.97-.94-.26-.1-.45-.15-.64.14-.2.3-.74.94-.91 1.14-.16.2-.33.22-.62.07-.28-.14-1.2-.44-2.28-1.4-.85-.75-1.42-1.68-1.58-1.97-.17-.28-.02-.44.13-.58.13-.13.29-.34.43-.5.14-.17.19-.28.28-.47.1-.2.05-.36-.02-.5-.07-.15-.64-1.55-.88-2.12-.23-.56-.47-.48-.64-.49h-.55c-.19 0-.5.07-.77.36-.26.29-1 1-1 2.42s1.03 2.8 1.17 3c.14.19 2.01 3.08 4.87 4.32.68.3 1.22.48 1.64.62.7.22 1.34.19 1.85.11.56-.09 1.7-.7 1.94-1.37.24-.67.24-1.25.17-1.37-.08-.13-.27-.2-.56-.35Z"/></svg>WhatsApp (texto)</button></div>
           <details class="extras"><summary>Opções de imagem (PNG)</summary><div class="extras-body"><button type="button" class="btn-small" id="downloadImage" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v12m-4-4 4 4 4-4M4 17v3h16v-3"/></svg>Baixar imagem</button><button type="button" class="btn-small" id="shareImage" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.7 10.7 6.6-4.2m-6.6 6.8 6.6 4.2"/></svg>Compartilhar imagem</button></div><p class="extras-note">Se o celular não permitir compartilhar a imagem diretamente, ela será baixada para você anexar no grupo.</p></details>
         </section>
       </div>
     </main>
-    <p class="footnote">Versão 4.0 • Funciona no navegador e, depois de instalado, offline para montar avisos. As seleções, os recados e as configurações ficam somente neste aparelho; uma lista pode expirar conforme o prazo escolhido.</p>
+    <p class="footnote">Versão 5.0 • Funciona no navegador e, depois de instalado, offline para montar avisos. As seleções, os recados e as fotos ficam apenas neste aparelho; fotos são apagadas ao limpar a lista. Listas podem expirar conforme o prazo configurado.</p>
   </div>
 
-  <div class="mobilebar" role="group" aria-label="Ações rápidas"><button class="btn btn-alt copy-action" type="button" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>Copiar texto</button><button class="btn btn-main share-action" type="button" disabled><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5a11.65 11.65 0 0 0-18.3 14L.6 23.4l6-1.6A11.64 11.64 0 1 0 20.5 3.5ZM12.3 21a9.6 9.6 0 0 1-4.9-1.35l-.36-.21-3.55.93.95-3.46-.24-.38a9.62 9.62 0 1 1 8.1 4.47Zm5.28-7.12c-.29-.15-1.7-.84-1.97-.94-.26-.1-.45-.15-.64.14-.2.3-.74.94-.91 1.14-.16.2-.33.22-.62.07-.28-.14-1.2-.44-2.28-1.4-.85-.75-1.42-1.68-1.58-1.97-.17-.28-.02-.44.13-.58.13-.13.29-.34.43-.5.14-.17.19-.28.28-.47.1-.2.05-.36-.02-.5-.07-.15-.64-1.55-.88-2.12-.23-.56-.47-.48-.64-.49h-.55c-.19 0-.5.07-.77.36-.26.29-1 1-1 2.42s1.03 2.8 1.17 3c.14.19 2.01 3.08 4.87 4.32.68.3 1.22.48 1.64.62.7.22 1.34.19 1.85.11.56-.09 1.7-.7 1.94-1.37.24-.67.24-1.25.17-1.37-.08-.13-.27-.2-.56-.35Z"/></svg>WhatsApp</button></div>
+  <div class="mobilebar" role="group" aria-label="Ações rápidas"><button class="btn btn-alt copy-action" type="button" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>Copiar texto</button><button class="btn btn-main share-action" type="button" disabled><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5a11.65 11.65 0 0 0-18.3 14L.6 23.4l6-1.6A11.64 11.64 0 1 0 20.5 3.5ZM12.3 21a9.6 9.6 0 0 1-4.9-1.35l-.36-.21-3.55.93.95-3.46-.24-.38a9.62 9.62 0 1 1 8.1 4.47Zm5.28-7.12c-.29-.15-1.7-.84-1.97-.94-.26-.1-.45-.15-.64.14-.2.3-.74.94-.91 1.14-.16.2-.33.22-.62.07-.28-.14-1.2-.44-2.28-1.4-.85-.75-1.42-1.68-1.58-1.97-.17-.28-.02-.44.13-.58.13-.13.29-.34.43-.5.14-.17.19-.28.28-.47.1-.2.05-.36-.02-.5-.07-.15-.64-1.55-.88-2.12-.23-.56-.47-.48-.64-.49h-.55c-.19 0-.5.07-.77.36-.26.29-1 1-1 2.42s1.03 2.8 1.17 3c.14.19 2.01 3.08 4.87 4.32.68.3 1.22.48 1.64.62.7.22 1.34.19 1.85.11.56-.09 1.7-.7 1.94-1.37.24-.67.24-1.25.17-1.37-.08-.13-.27-.2-.56-.35Z"/></svg>WhatsApp (texto)</button></div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <dialog id="helpDialog" aria-labelledby="helpTitle"><div class="modal-body"><div class="modal-top"><h2 id="helpTitle">Como usar <span aria-hidden="true">📦</span></h2><button type="button" class="icon-close" data-close="helpDialog" aria-label="Fechar tutorial">×</button></div>
     <div class="walk-step"><div class="walk-n">1</div><div><strong>Marque os apartamentos</strong><p>Escolha o bloco A, B ou C. Toque em cada apartamento que recebeu encomenda. Ele ficará verde.</p></div></div>
     <div class="walk-step"><div class="walk-n">2</div><div><strong>Confira a quantidade</strong><p>No resumo, use + ou − se algum apartamento tiver mais de uma encomenda. É possível corrigir tudo antes de enviar.</p></div></div>
-    <div class="walk-step"><div class="walk-n">3</div><div><strong>Confirme a lista</strong><p>Toque em WhatsApp, Copiar ou Imagem. Aparece uma conferência final com cada apartamento e a quantidade de encomendas. Só continua após você confirmar.</p></div></div>
-    <div class="walk-step"><div class="walk-n">4</div><div><strong>Limpe com um toque ou automaticamente</strong><p>Toque em “Limpar tudo” ou configure “Após X horas” / “Todos os dias em um horário”. Ao vencer, a lista é limpa quando o app estiver aberto ou ao reabri-lo.</p></div></div>
-    <div class="walk-step"><div class="walk-n">5</div><div><strong>Defina um recado fixo</strong><p>Em “Pronto para avisar”, ative ou desative o recado. Escolha um texto pronto, como “Retirar até as 17h”, ou escreva sua própria mensagem. Ela ficará salva.</p></div></div>
-    <div class="walk-step"><div class="walk-n">6</div><div><strong>Escolha o visual</strong><p>Toque em “Modo escuro” no topo para mudar as cores. O celular lembra sua escolha.</p></div></div>
+    <div class="walk-step"><div class="walk-n">3</div><div><strong>Fotografe uma por vez (novo)</strong><p>Toque em “Fotografar encomendas”. O app pede uma foto para cada pacote e já passa ao próximo. Você pode voltar e trocar fotos.</p></div></div>
+    <div class="walk-step"><div class="walk-n">4</div><div><strong>Confirme a lista</strong><p>Toque em WhatsApp, Copiar ou Imagem. Aparece uma conferência final com cada apartamento e a quantidade de encomendas. Só continua após você confirmar.</p></div></div>
+    <div class="walk-step"><div class="walk-n">5</div><div><strong>Limpe com um toque ou automaticamente</strong><p>Toque em “Limpar tudo” ou configure “Após X horas” / “Todos os dias em um horário”. Ao vencer, a lista é limpa quando o app estiver aberto ou ao reabri-lo.</p></div></div>
+    <div class="walk-step"><div class="walk-n">6</div><div><strong>Defina um recado fixo</strong><p>Em “Pronto para avisar”, ative ou desative o recado. Escolha um texto pronto, como “Retirar até as 17h”, ou escreva sua própria mensagem. Ela ficará salva.</p></div></div>
+    <div class="walk-step"><div class="walk-n">7</div><div><strong>Escolha o visual</strong><p>Toque em “Modo escuro” no topo para mudar as cores. O celular lembra sua escolha.</p></div></div>
     <div style="font-size:12px;color:#5c6d87;margin-top:16px">📱 Dica: no celular você pode instalar na tela inicial pelo botão <strong>Como instalar</strong>.</div><button type="button" class="modal-cta" id="startBtn">Entendi, começar</button>
   </div></dialog>
 
-  <dialog id="clearDialog" aria-labelledby="clearTitle"><div class="modal-body"><div class="modal-top"><h2 id="clearTitle">Limpar a lista?</h2><button type="button" class="icon-close" data-close="clearDialog" aria-label="Fechar confirmação">×</button></div><p class="modal-text">Todos os apartamentos e quantidades serão desmarcados. Seu recado fixo e suas configurações continuarão salvos.</p><div class="modal-actions"><button type="button" class="btn btn-alt" data-close="clearDialog">Cancelar</button><button type="button" class="btn modal-cta warn" id="confirmClear" style="margin-top:0">Sim, limpar</button></div></div></dialog>
+  <dialog id="clearDialog" aria-labelledby="clearTitle"><div class="modal-body"><div class="modal-top"><h2 id="clearTitle">Limpar a lista?</h2><button type="button" class="icon-close" data-close="clearDialog" aria-label="Fechar confirmação">×</button></div><p class="modal-text">Todos os apartamentos, quantidades e fotos desta lista serão apagados deste aparelho. Seu recado fixo e suas configurações continuarão salvos.</p><div class="modal-actions"><button type="button" class="btn btn-alt" data-close="clearDialog">Cancelar</button><button type="button" class="btn modal-cta warn" id="confirmClear" style="margin-top:0">Sim, limpar</button></div></div></dialog>
 
   <dialog id="reviewDialog" aria-labelledby="reviewTitle"><div class="modal-body">
     <div class="modal-top"><h2 id="reviewTitle">✅ Conferir encomendas</h2><button type="button" class="icon-close" data-close="reviewDialog" aria-label="Fechar conferência">×</button></div>
@@ -390,6 +449,25 @@
     <p class="review-question">Isso está certo?</p>
     <p class="review-help">Se houver algo errado, volte e corrija. Nada é enviado automaticamente.</p>
     <div class="review-controls"><button class="btn btn-alt" id="reviewBack" type="button">Voltar e corrigir</button><button class="btn review-confirm" id="reviewConfirm" type="button">Sim, continuar</button></div>
+  </div></dialog>
+
+
+  <dialog id="photoDialog" class="photo-guide" aria-labelledby="photoDialogTitle"><div class="modal-body">
+    <div class="modal-top"><h2 id="photoDialogTitle">📷 Fotografar encomendas</h2><button type="button" class="icon-close" id="photoCloseX" aria-label="Fechar fotos">×</button></div>
+    <div class="photo-counter-badge" id="photoCounter" style="margin-top:14px;display:inline-block">Foto 1 de 1</div>
+    <div class="photo-step"><div class="sub">Fotografe o pacote do apartamento</div><div class="num" id="photoApartment">101A</div><div class="sub" id="photoOrdinal">Encomenda 1 de 1</div></div>
+    <div class="photo-preview" id="photoPreview"><div class="missing">Ainda não há foto desta encomenda.</div></div>
+    <div class="photo-capture-buttons">
+      <label class="photo-label" for="cameraInput">📷 Tirar foto</label>
+      <input class="photo-file-input" type="file" id="cameraInput" accept="image/*" capture="environment" aria-label="Usar câmera para fotografar a encomenda">
+      <label class="photo-label secondary" for="galleryInput">🖼️ Escolher da galeria</label>
+      <input class="photo-file-input" type="file" id="galleryInput" accept="image/*" aria-label="Escolher foto existente">
+    </div>
+    <div class="photo-error" id="photoError" role="alert" hidden></div>
+    <div class="photo-nav"><button class="btn btn-alt" id="photoPrevious" type="button">← Anterior</button><button class="btn btn-main" id="photoNext" type="button">Próxima →</button></div>
+    <p class="photo-warning" id="photoGuideStatus">O aplicativo salva as fotos neste aparelho quando possível. Confira a imagem antes de passar para a próxima.</p>
+    <button type="button" id="removePhoto" class="photo-close" style="color:#b4233a" hidden>Excluir esta foto</button>
+    <button class="photo-close" id="finishPhotos" type="button">Voltar ao aplicativo</button>
   </div></dialog>
 
   <dialog id="installDialog" aria-labelledby="installTitle"><div class="modal-body">
@@ -567,7 +645,7 @@
         $('preview').textContent=msg || 'Selecione pelo menos um apartamento para criar o aviso.';
         $('preview').classList.toggle('placeholder', !msg);
       }
-      const render=()=>{renderFloors();renderSummary();renderCleanup();persist()};
+      const render=()=>{renderFloors();renderSummary();renderCleanup(); if(typeof renderPhotos==='function')renderPhotos(); persist()};
       $('floorList').addEventListener('click',e=>{
         const btn=e.target.closest('[data-unit]');if(!btn)return;
         const id=btn.dataset.unit;
@@ -719,7 +797,7 @@
       let pendingAction = null;
       const reviewLabels = {
         copy:'Sim, copiar texto', whatsapp:'Sim, abrir WhatsApp',
-        downloadImage:'Sim, baixar imagem', shareImage:'Sim, compartilhar imagem'
+        downloadImage:'Sim, baixar imagem', shareImage:'Sim, compartilhar imagem', photos:'Sim, compartilhar fotos'
       };
       function requestReview(action){
         const entries=aptEntries();
@@ -745,6 +823,7 @@
           section.append(head,grid);root.append(section);
         }
         root.scrollTop=0;
+        if(action==='photos') { $('reviewIntro').textContent=`As ${count} encomendas têm ${savedPhotoCount()} fotos, uma por pacote. Confira antes de abrir o compartilhamento:`; }
         $('reviewNote').hidden=!(state.noteEnabled && state.note.trim());
         $('reviewNoteText').textContent=state.noteEnabled ? state.note.trim() : '';
         openDialog($('reviewDialog'));
@@ -758,7 +837,230 @@
         else if(action==='whatsapp')void shareText();
         else if(action==='downloadImage')void downloadImageConfirmed();
         else if(action==='shareImage')void shareImageConfirmed();
+        else if(action==='photos')void sharePhotosConfirmed();
       });
+
+
+      // V5: uma foto para cada pacote, mantida em IndexedDB e nunca enviada ao servidor.
+      // Chaves de armazenamento são apt:ordinal (ex.: 204B:2).
+      const photos = new Map();
+      let photoDB = null, photosReady = false, photoIndex = 0, previewUrl = null, photoBusy = false;
+      const photoSlots = () => aptEntries().flatMap(([apt,qty]) => Array.from({length:qty},(_,i)=>({apt,qty,index:i+1,key:`${apt}:${i+1}`})));
+      const savedPhotoCount = () => photoSlots().filter(slot=>photos.has(slot.key)).length;
+      const photoFilename = slot => `${slot.apt}_encomenda_${String(slot.index).padStart(2,'0')}.jpg`;
+      const photoError = text => { $('photoError').hidden=!text;$('photoError').textContent=text; };
+
+      function openPhotoDB(){return new Promise((resolve,reject)=>{
+        if(!('indexedDB' in window)){reject(Error('Sem IndexedDB'));return;}
+        const req=indexedDB.open('encomendas_fotos_v5',1);
+        req.onupgradeneeded=()=>{if(!req.result.objectStoreNames.contains('photos'))req.result.createObjectStore('photos',{keyPath:'key'});};
+        req.onerror=()=>reject(req.error||Error('Não foi possível abrir armazenamento'));
+        req.onsuccess=()=>resolve(req.result);
+      });}
+      function photoTransaction(mode,callback){return new Promise((resolve,reject)=>{
+        if(!photoDB){resolve();return;}
+        const tx=photoDB.transaction('photos',mode);const store=tx.objectStore('photos');
+        try{callback(store);}catch(err){reject(err);return;}
+        tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error||Error('Erro ao salvar foto'));tx.onabort=()=>reject(tx.error||Error('Erro no armazenamento'));
+      });}
+      async function prunePhotos(){
+        const expected=new Set(photoSlots().map(slot=>slot.key));
+        const dead=[...photos.keys()].filter(key=>!expected.has(key));
+        for(const key of dead)photos.delete(key);
+        if(dead.length && photoDB){try{await photoTransaction('readwrite',store=>dead.forEach(key=>store.delete(key)));}catch(_){toast('Não foi possível limpar algumas fotos antigas.');}}
+        renderPhotos();
+      }
+      async function erasePhotos(){
+        photos.clear();
+        if(photoDB){try{await photoTransaction('readwrite',store=>store.clear());}catch(_){toast('Atenção: fotos antigas podem continuar salvas neste aparelho.');}}
+        renderPhotos();
+      }
+      async function initPhotoStorage(){
+        try{
+          photoDB=await openPhotoDB();
+          const records=await new Promise((resolve,reject)=>{
+            const tx=photoDB.transaction('photos','readonly');const req=tx.objectStore('photos').getAll();
+            req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);
+          });
+          for(const rec of records){if(rec?.key && rec?.blob instanceof Blob)photos.set(rec.key,rec.blob);}
+          await prunePhotos();
+        } catch(_){
+          $('photoStorageNote').textContent='⚠️ Este navegador não está salvando fotos permanentemente. Não feche o aplicativo antes de compartilhar. Os apartamentos e recados continuam salvos normalmente.';
+        }
+        photosReady=true;renderPhotos();
+      }
+      function renderPhotos(){
+        const slots=photoSlots(),total=slots.length,count=savedPhotoCount(),percent=total?Math.round(100*count/total):0;
+        $('photoStatus').textContent=total?`${count} de ${total} fotos prontas${count===total?' ✓':''}`:'Marque os apartamentos para começar.';
+        $('photoProgressFill').style.width=percent+'%';$('photoProgress').setAttribute('aria-valuenow',String(percent));
+        $('startPhotos').disabled=!total||!photosReady;
+        $('startPhotos').textContent=count===total&&total?'📷 Ver ou trocar fotos':count?'📷 Continuar fotografando':'📷 Fotografar encomendas';
+        $('sharePhotos').disabled=!total||count!==total||!photosReady;
+        $('photoHelp').textContent=total?count===total?'Todas as encomendas têm foto. Agora confira e compartilhe.':`Faltam ${total-count} fotos. O app mostra qual encomenda fotografar.`:'Se 204B tiver 2 encomendas, você tirará 2 fotos, uma de cada pacote.';
+      }
+      function releasePreview(){if(previewUrl){URL.revokeObjectURL(previewUrl);previewUrl=null;}}
+      function showPhotoStep(){
+        const slots=photoSlots();if(!slots.length){closePhotoGuide();return;}
+        photoIndex=Math.max(0,Math.min(photoIndex,slots.length-1));const slot=slots[photoIndex];
+        $('photoCounter').textContent=`Foto ${photoIndex+1} de ${slots.length}`;
+        $('photoApartment').textContent=slot.apt;
+        $('photoOrdinal').textContent=`Encomenda ${slot.index} de ${slot.qty}`;
+        $('photoPrevious').disabled=photoIndex===0;
+        $('photoNext').textContent=photoIndex===slots.length-1?'Concluir ✓':'Próxima →';
+        releasePreview();$('photoPreview').replaceChildren();
+        const blob=photos.get(slot.key);
+        if(blob){
+          previewUrl=URL.createObjectURL(blob);
+          const image=document.createElement('img');image.src=previewUrl;image.alt=`Foto da encomenda ${slot.index}, apartamento ${slot.apt}`;
+          $('photoPreview').append(image);
+        }else{
+          const missing=document.createElement('div');missing.className='missing';missing.textContent='Ainda falta fotografar esta encomenda.';$('photoPreview').append(missing);
+        }
+        $('removePhoto').hidden=!blob;
+        $('photoGuideStatus').textContent=`${savedPhotoCount()} de ${slots.length} fotos adicionadas. Se já tirou esta foto, avance ou escolha outra para substituí-la.`;
+        photoError('');
+      }
+      function openPhotoGuide(){
+        if(!photosReady){toast('Preparando a câmera.');return;}
+        if(!photoSlots().length){toast('Marque pelo menos um apartamento.');return;}
+        photoIndex=Math.max(0,photoSlots().findIndex(slot=>!photos.has(slot.key)));
+        showPhotoStep();openDialog($('photoDialog'));
+      }
+      function closePhotoGuide(){releasePreview();closeDialog($('photoDialog'));renderPhotos();}
+      function goPhotoForward(){
+        const slots=photoSlots();if(photoIndex < slots.length-1){photoIndex++;showPhotoStep();}else closePhotoGuide();
+      }
+      $('startPhotos').addEventListener('click',openPhotoGuide);
+      $('photoPrevious').addEventListener('click',()=>{if(photoIndex>0){photoIndex--;showPhotoStep();}});
+      $('photoNext').addEventListener('click',goPhotoForward);
+      $('photoCloseX').addEventListener('click',closePhotoGuide);
+      $('finishPhotos').addEventListener('click',closePhotoGuide);
+      $('photoDialog').addEventListener('close',releasePreview);
+      function imageFromFile(file){return new Promise((resolve,reject)=>{
+        const url=URL.createObjectURL(file);const img=new Image();
+        img.onload=()=>{URL.revokeObjectURL(url);resolve(img)};
+        img.onerror=()=>{URL.revokeObjectURL(url);reject(Error('A imagem não pôde ser aberta.'));};
+        img.src=url;
+      });}
+      async function compressPhoto(file){
+        if(!file||!file.type.startsWith('image/'))throw Error('Escolha uma foto válida.');
+        const img=await imageFromFile(file);
+        const scale=Math.min(1,1500/Math.max(img.naturalWidth,img.naturalHeight));
+        const canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(img.naturalWidth*scale));canvas.height=Math.max(1,Math.round(img.naturalHeight*scale));
+        canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);
+        const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',0.82));
+        if(!blob)throw Error('Não foi possível preparar esta foto.');
+        return blob;
+      }
+      async function handlePhotoInput(event){
+        const input=event.target,file=input.files?.[0];input.value='';if(!file||photoBusy)return;
+        const slot=photoSlots()[photoIndex];if(!slot)return;
+        photoBusy=true;photoError('');
+        try{
+          const blob=await compressPhoto(file);
+          if(!photoSlots().some(s=>s.key===slot.key))throw Error('A lista mudou. Abra as fotos novamente.');
+          if(photoDB) await photoTransaction('readwrite',store=>store.put({key:slot.key,blob,updatedAt:Date.now()}));
+          photos.set(slot.key,blob);renderPhotos();
+          const remaining=photoSlots().findIndex((s,i)=>i>photoIndex&&!photos.has(s.key));
+          if(remaining>=0){photoIndex=remaining;showPhotoStep();toast('✓ Foto salva! Agora fotografe a próxima encomenda.');}
+          else {showPhotoStep();toast(savedPhotoCount()===photoSlots().length?'✓ Todas as fotos estão prontas!':'✓ Foto salva.');}
+        } catch(err){photoError('Não foi possível salvar a foto: '+(err?.message||'tente novamente.'));}
+        finally{photoBusy=false;}
+      }
+      $('cameraInput').addEventListener('change',handlePhotoInput);
+      $('galleryInput').addEventListener('change',handlePhotoInput);
+      $('removePhoto').addEventListener('click',async()=>{
+        const slot=photoSlots()[photoIndex];if(!slot||photoBusy)return;
+        if(!confirm(`Excluir a foto da encomenda ${slot.index} do apartamento ${slot.apt}?`))return;
+        photoBusy=true;
+        try{if(photoDB)await photoTransaction('readwrite',store=>store.delete(slot.key));photos.delete(slot.key);showPhotoStep();renderPhotos();}
+        catch(_){photoError('Não foi possível excluir a foto. Tente novamente.');}
+        finally{photoBusy=false;}
+      });
+      // O mesmo desenho é aplicado a cada foto, sem alterar a imagem original salva.
+      async function imageWithLabel(slot){
+        const original=photos.get(slot.key);if(!original)throw Error('Foto pendente: '+slot.apt);
+        const img=await imageFromFile(original);
+        const width=1100,header=190,margin=30,maxHeight=1050;
+        const height= Math.min(maxHeight,Math.round(img.naturalHeight*width/img.naturalWidth));
+        const canvas=document.createElement('canvas');canvas.width=width;canvas.height=height+header+margin*2;
+        const ctx=canvas.getContext('2d');ctx.fillStyle='#f7f9fc';ctx.fillRect(0,0,canvas.width,canvas.height);
+        ctx.fillStyle='#243661';ctx.fillRect(0,0,width,header);
+        ctx.fillStyle='#dfe7ff';ctx.font='bold 24px system-ui';ctx.fillText('ENCOMENDA PARA O APARTAMENTO',margin,46);
+        ctx.fillStyle='#ffffff';ctx.font='900 86px system-ui';ctx.fillText(slot.apt,margin,137);
+        ctx.font='bold 23px system-ui';ctx.fillStyle='#e6ecff';ctx.textAlign='right';ctx.fillText(`${slot.index} de ${slot.qty}`,width-margin,145);ctx.textAlign='left';
+        const factor=Math.min((width-margin*2)/img.naturalWidth,height/img.naturalHeight);
+        const drawWidth=Math.round(img.naturalWidth*factor),drawHeight=Math.round(img.naturalHeight*factor);
+        ctx.fillStyle='#fff';ctx.fillRect(margin,header+margin,width-margin*2,height);
+        ctx.drawImage(img,Math.round((width-drawWidth)/2),header+margin+Math.round((height-drawHeight)/2),drawWidth,drawHeight);
+        const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',0.85));
+        if(!blob)throw Error('Não foi possível preparar a imagem para envio.');
+        return blob;
+      }
+      // ZIP sem dependências externas para navegadores que não conseguem compartilhar múltiplos arquivos.
+      function crc32(bytes){
+        let crc=0xffffffff;
+        for(const b of bytes){crc^=b;for(let k=0;k<8;k++)crc=(crc>>>1)^((crc&1)?0xedb88320:0);}
+        return (crc^0xffffffff)>>>0;
+      }
+      function packZip(files){
+        const encoder=new TextEncoder(),parts=[],central=[];let offset=0;
+        for(const file of files){
+          const name=encoder.encode(file.name),data=file.data,crc=crc32(data),size=data.length;
+          const local=new Uint8Array(30+name.length),l=new DataView(local.buffer);
+          l.setUint32(0,0x04034b50,true);l.setUint16(4,20,true);l.setUint16(6,0x0800,true);l.setUint16(8,0,true);
+          l.setUint32(14,crc,true);l.setUint32(18,size,true);l.setUint32(22,size,true);l.setUint16(26,name.length,true);local.set(name,30);
+          parts.push(local,data);
+          const dir=new Uint8Array(46+name.length),d=new DataView(dir.buffer);
+          d.setUint32(0,0x02014b50,true);d.setUint16(4,20,true);d.setUint16(6,20,true);d.setUint16(8,0x0800,true);
+          d.setUint32(16,crc,true);d.setUint32(20,size,true);d.setUint32(24,size,true);
+          d.setUint16(28,name.length,true);d.setUint32(42,offset,true);dir.set(name,46);
+          central.push(dir);offset+=local.length+size;
+        }
+        const cdLength=central.reduce((sum,b)=>sum+b.length,0),end=new Uint8Array(22),e=new DataView(end.buffer);
+        e.setUint32(0,0x06054b50,true);e.setUint16(8,files.length,true);e.setUint16(10,files.length,true);
+        e.setUint32(12,cdLength,true);e.setUint32(16,offset,true);
+        return new Blob([...parts,...central,end],{type:'application/zip'});
+      }
+      let pendingPhotoFiles=null;
+      async function prepareSharePhotos(){
+        const slots=photoSlots();if(!slots.length||slots.some(s=>!photos.has(s.key)))throw Error('Fotos incompletas');
+        const files=[];
+        for(const slot of slots){const blob=await imageWithLabel(slot);files.push(new File([blob],photoFilename(slot),{type:'image/jpeg'}));}
+        return files;
+      }
+      async function downloadPhotosZip(files){
+        const packed=[];
+        for(const file of files)packed.push({name:file.name,data:new Uint8Array(await file.arrayBuffer())});
+        packed.push({name:'LEIA-ME.txt',data:new TextEncoder().encode('Fotos separadas por apartamento. Para enviar no WhatsApp, abra os arquivos e selecione as imagens.\r\n\r\n'+message())});
+        downloadBlob(packZip(packed),`encomendas_fotos_${new Date().toISOString().slice(0,10)}.zip`);
+        toast('O celular não aceitou o envio direto. Baixei um ZIP com todas as fotos identificadas.');
+      }
+      // Executa navigator.share diretamente dentro do clique de confirmação.
+      // Preparar canvas somente após o clique pode perder a ativação do usuário em alguns celulares.
+      function sharePhotosConfirmed(){
+        const files=pendingPhotoFiles;pendingPhotoFiles=null;
+        if(!files||files.length!==photoSlots().length||savedPhotoCount()!==files.length){toast('A lista mudou. Confira novamente as fotos.');return;}
+        if(navigator.share && navigator.canShare && navigator.canShare({files})){
+          navigator.share({files,text:message(),title:'Encomendas do condomínio'}).then(()=>toast('Escolha o grupo e confira as fotos antes de enviar.')).catch(err=>{
+            if(err?.name!=='AbortError')void downloadPhotosZip(files).catch(()=>toast('Não foi possível salvar as fotos.'));
+          });
+        }else void downloadPhotosZip(files).catch(()=>toast('Não foi possível salvar as fotos.'));
+      }
+      $('sharePhotos').addEventListener('click',async()=>{
+        if(savedPhotoCount()!==photoSlots().length){openPhotoGuide();return;}
+        const btn=$('sharePhotos');btn.disabled=true;btn.textContent='Preparando as fotos...';
+        try{pendingPhotoFiles=await prepareSharePhotos();requestReview('photos');}
+        catch(_){toast('Não foi possível preparar as fotos. Verifique as imagens.');}
+        finally{renderPhotos();btn.textContent='📤 Conferir e compartilhar fotos';}
+      });
+      // Ajustes na lista devem invalidar apenas fotos de encomendas que não existem mais.
+      $('floorList').addEventListener('click',()=>void prunePhotos());
+      $('summary').addEventListener('click',()=>void prunePhotos());
+      // Limpeza manual e automática também eliminam fotos, mas não alteram preferências.
+      const oldResetList=resetList;
+      resetList=function(){oldResetList();void erasePhotos();};
+      initPhotoStorage();
 
       // Prompt nativo de instalação quando compatível com o navegador/ambiente seguro.
       let deferredInstall=null;
