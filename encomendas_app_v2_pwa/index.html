@@ -150,6 +150,127 @@
       .mobilebar .btn{min-height:51px}.toast{bottom:95px}.preview{max-height:210px}
     }
     @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
+
+    /* v4 — controles visíveis, tamanhos confortáveis e dois temas de alto contraste */
+    .header-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap;justify-content:flex-end}
+    .theme-toggle{border:1px solid var(--line);color:var(--ink);background:var(--surface);border-radius:13px;padding:11px 14px;min-height:48px;font-size:14px;font-weight:800;white-space:nowrap}
+    .help{min-height:48px;font-size:14px}
+    .clear-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 22px 16px;padding:11px 13px;border:1px solid var(--line);border-radius:14px;background:var(--surface2)}
+    .clear-toolbar span{color:var(--muted);font-weight:800;font-size:14px}
+    .clear-prominent{background:#fff0f1;border:2px solid #edb3be;color:#9f1b38;border-radius:12px;min-height:52px;padding:10px 17px;font-weight:850;font-size:16px;white-space:nowrap}
+    .clear-prominent:not(:disabled):hover{background:#ffe4e8}
+    .clear-prominent:disabled{opacity:.48}
+    .textbtn.clear-action{font-size:14px;color:#a82743;min-height:44px;padding:7px 9px}
+    .toast{font-size:14px}
+    :root[data-theme="dark"]{
+      color-scheme:dark;
+      --bg:#101624;--surface:#1c2536;--surface2:#232e42;
+      --ink:#f0f5ff;--muted:#bdcae0;--line:#39475e;
+      --brand:#b1a8ff;--brand-dark:#e0d9ff;--brand-soft:#343455;
+      --green:#30b989;--green-soft:#153f33;--red:#ff8093;
+      --shadow:0 14px 45px rgba(0,0,0,.23);
+    }
+    [data-theme="dark"] .logo{box-shadow:0 8px 20px #0005}
+    [data-theme="dark"] .help,[data-theme="dark"] .theme-toggle{background:var(--surface);color:var(--ink);border-color:var(--line)}
+    [data-theme="dark"] .howto{background:linear-gradient(110deg,#28284a,#183446);border-color:#48516e}
+    [data-theme="dark"] .howto p,[data-theme="dark"] .howto strong{color:#e5eaff}
+    [data-theme="dark"] .tab{background:#253146;color:#dee7f7;border-color:#495771}
+    [data-theme="dark"] .tab.active{background:#3c3964;color:#eeeaff;border-color:#a59cff;box-shadow:none}
+    [data-theme="dark"] .tab:hover{border-color:#b1a8ff}
+    [data-theme="dark"] .floor-name,[data-theme="dark"] .group-label,[data-theme="dark"] .review-block{color:#c1cee3}
+    [data-theme="dark"] .floor-line,[data-theme="dark"] .divider{background:#43526b}
+    [data-theme="dark"] .unit{background:#243047;color:#f1f6ff;border-color:#53637e}
+    [data-theme="dark"] .unit:hover{border-color:#a89eff}
+    [data-theme="dark"] .unit .unit-meta{color:#b3c1d7}
+    [data-theme="dark"] .unit.selected{background:#184c3b;color:#e8fff4;border-color:#42c79d;box-shadow:inset 0 0 0 1px #26876c}
+    [data-theme="dark"] .unit.selected .unit-meta{color:#d0f6e3}
+    [data-theme="dark"] .unit .num{background:#237858;color:#fff}
+    [data-theme="dark"] .tip{background:#253247;border-color:#566781;color:#e0e8f5}
+    [data-theme="dark"] .tip svg{color:#c9bdff}
+    [data-theme="dark"] .empty{background:#222e43;border-color:#53647d;color:#bdcce0}
+    [data-theme="dark"] .empty strong{color:#edf3ff}
+    [data-theme="dark"] .selected-row{border-color:#35455d}
+    [data-theme="dark"] .selected-note{color:#b6c6de}
+    [data-theme="dark"] .quantity{background:#2c3b52;border-color:#465972}
+    [data-theme="dark"] .qty-btn{background:#3b4c66;color:#f4f7ff;box-shadow:none}
+    [data-theme="dark"] .qty-btn:hover{background:#566b8a}
+    [data-theme="dark"] .summary-bottom{background:#202b3d;border-color:var(--line)}
+    [data-theme="dark"] .stat-l,[data-theme="dark"] .textbtn{color:#d5dff2}
+    [data-theme="dark"] .textbtn.clear-action{color:#ffa8bb}
+    [data-theme="dark"] .clear-toolbar{background:#283347}
+    [data-theme="dark"] .clear-prominent{background:#4d2738;border-color:#a95f76;color:#ffd4df}
+    [data-theme="dark"] .clear-prominent:not(:disabled):hover{background:#6b3449}
+    [data-theme="dark"] .auto-clear{background:var(--surface);border-color:var(--line)}
+    [data-theme="dark"] .auto-clear-head,[data-theme="dark"] .fixed-note .toggle-row{color:#e5edff}
+    [data-theme="dark"] .control-select,[data-theme="dark"] .control-input,[data-theme="dark"] .message-input{background:#253248;border-color:#596a85;color:#fff}
+    [data-theme="dark"] input[type="checkbox"]{accent-color:#8c82fb}
+    [data-theme="dark"] .auto-help,[data-theme="dark"] .extras-note{color:#bdcae0}
+    [data-theme="dark"] .auto-due{color:#81e8bc}
+    [data-theme="dark"] .fixed-note{background:#253047;border-color:#455773}
+    [data-theme="dark"] .toggle-row,[data-theme="dark"] .field-label{color:#ecf3ff}
+    [data-theme="dark"] .fixed-note .field-label{color:#e6eeff}
+    [data-theme="dark"] .selected-label,[data-theme="dark"] .stat-n{color:#f5f8ff}
+    [data-theme="dark"] .preview-label span[style]{color:#cdd9ee!important}
+    [data-theme="dark"] .preview-label{color:#dce6f6}
+    [data-theme="dark"] .preview{background:#222d42;border-color:#43546f;color:#eff5ff}
+    [data-theme="dark"] .preview.placeholder{color:#c1cbdf}
+    [data-theme="dark"] .btn-alt{background:#28344b;color:#f1ebff;border-color:#7881a9}
+    [data-theme="dark"] .btn-alt:not(:disabled):hover{background:#3c4964}
+    [data-theme="dark"] .btn-main,[data-theme="dark"] .review-confirm{background:#147851;border-color:#23b583;color:#fff}
+    [data-theme="dark"] .extras{background:#222e43;border-color:#425472}
+    [data-theme="dark"] .extras summary{color:#dbe5f7}
+    [data-theme="dark"] .btn-small{background:#304057;color:#f3f7ff;border-color:#5d6e87}
+    [data-theme="dark"] .install-strip{background:#1c2536;border-color:#485974;box-shadow:none}
+    [data-theme="dark"] .install-strip .install-text,[data-theme="dark"] .install-strip .install-text strong{color:#edf2ff}
+    [data-theme="dark"] .install-button{background:#343455;color:#f3efff;border-color:#8879d3}
+    [data-theme="dark"] .footnote{color:#c9d3e4}
+    [data-theme="dark"] .mobilebar{background:#182232;border-color:#43526b;box-shadow:0 -8px 30px #0006}
+    [data-theme="dark"] dialog{background:#1d2839;color:#f1f5ff}
+    [data-theme="dark"] dialog::backdrop{background:rgba(0,0,0,.76)}
+    [data-theme="dark"] .icon-close{background:#33425a;color:#f4f7ff}
+    [data-theme="dark"] .walk-step{border-color:#3b4d66}
+    [data-theme="dark"] .walk-step p,[data-theme="dark"] .modal-text,[data-theme="dark"] .review-help{color:#c6d3e8}
+    [data-theme="dark"] .walk-n{background:#403e68;color:#eee9ff}
+    [data-theme="dark"] .review-intro{background:#273c58;border-color:#537196;color:#f3f7ff}
+    [data-theme="dark"] .review-stats div{background:#253247;border-color:#455772;color:#d4def0}
+    [data-theme="dark"] .review-stats strong{color:#fff}
+    [data-theme="dark"] .review-entries{background:#202c41;border-color:#50617c}
+    [data-theme="dark"] .review-item{background:#164638;border-color:#398a6f}
+    [data-theme="dark"] .review-item strong,[data-theme="dark"] .review-item small{color:#ddffef}
+    [data-theme="dark"] .review-question{color:#fff}
+    [data-theme="dark"] .review-note{background:#28344d;border-color:#576e91;color:#e8efff}
+    [data-theme="dark"] .review-note strong{color:#fff}
+    [data-theme="dark"] .toast{background:#e8efff;color:#102036}
+    @media (max-width:790px){
+      .header{flex-wrap:wrap}
+      .header-actions{width:100%;justify-content:flex-end}
+    }
+    @media (max-width:570px){
+      .header{flex-direction:column;align-items:stretch;gap:9px}
+      .header-actions{justify-content:flex-end;gap:8px}
+      .help{font-size:14px;min-height:48px;min-width:0;padding:10px 14px}
+      .theme-toggle{font-size:14px;padding:10px 13px;min-height:48px}
+      .clear-toolbar{margin:0 16px 15px;padding:10px;gap:8px}
+      .clear-toolbar span{font-size:13px}
+      .clear-prominent{font-size:15px;min-height:52px;padding:9px 13px}
+      .subtitle,.description,.tip,.howto p,.auto-help,.extras-note,.stat-l,.tab-count,.unit .unit-meta{font-size:max(12px,0.82rem)}
+      .tab-name,.qty-n,.field-label,.control-select,.control-input,.toggle-row,.message-input,.review-block,.review-item small{font-size:max(14px,0.9rem)}
+      .control-select,.control-input{min-height:48px}
+      .unit{min-height:70px}
+      .tab{min-height:72px}
+      .btn,.btn-small{font-size:14px;min-height:50px}
+      .qty-btn{width:42px;height:42px}
+      .modal-top h2{font-size:21px}
+      .review-controls .btn{font-size:15px}
+    }
+    @media (max-width:340px){
+      .unit-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .clear-toolbar{flex-direction:column;align-items:stretch}
+      .clear-toolbar span{text-align:center}
+      .tabs{gap:4px}
+      .tab-name{font-size:14px}
+    }
+
   </style>
 </head>
 <body>
@@ -161,10 +282,13 @@
         </div>
         <div><h1>Encomendas do condomínio</h1><p class="subtitle">Marque os apartamentos e avise o grupo em segundos.</p></div>
       </div>
-      <button class="help" id="openHelp" type="button" aria-label="Abrir tutorial">
+      <div class="header-actions">
+        <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false" aria-label="Ativar modo escuro">🌙 Modo escuro</button>
+        <button class="help" id="openHelp" type="button" aria-label="Abrir tutorial">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.7 9a2.5 2.5 0 0 1 4.6 1.2c0 1.6-2.3 2.1-2.3 3.8M12 17h.01"/></svg>
         Como usar
-      </button>
+        </button>
+      </div>
     </header>
 
     <div class="howto" id="quickHelp"><span class="spark" aria-hidden="true">✨</span><p><strong>É só tocar nos apartamentos.</strong> Eles ficam verdes quando selecionados. Antes de compartilhar, você confirma toda a lista.</p></div>
@@ -178,6 +302,10 @@
           <button type="button" class="tab" data-block="B" aria-pressed="false"><span class="tab-name">Bloco B</span><span class="tab-count" id="tabCountB">0 marcados</span></button>
           <button type="button" class="tab" data-block="C" aria-pressed="false"><span class="tab-name">Bloco C</span><span class="tab-count" id="tabCountC">0 marcados</span></button>
         </nav>
+        <div class="clear-toolbar">
+          <span id="clearCount" aria-live="polite">0 selecionados</span>
+          <button type="button" class="clear-prominent clear-action" id="clearTopBtn" disabled>🗑️ Limpar tudo</button>
+        </div>
         <div class="floor-list" id="floorList" aria-label="Apartamentos do bloco A"></div>
         <div class="tip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span>Se um apartamento tiver <strong>mais de uma encomenda</strong>, use o botão <strong>+</strong> no resumo para ajustar a quantidade.</span></div>
       </section>
@@ -186,7 +314,7 @@
         <section class="card" aria-labelledby="summaryTitle">
           <div class="card-head"><span class="eyebrow"><span class="step">2</span> Confira</span><h2 id="summaryTitle">Lista de encomendas</h2><p class="description">Tudo o que você marcou aparece aqui, organizado por bloco.</p></div>
           <div class="summary" id="summary" aria-live="polite"></div>
-          <div class="summary-bottom"><div class="stats"><div><div class="stat-n" id="aptTotal">0</div><div class="stat-l">apartamentos</div></div><div class="divider"></div><div><div class="stat-n" id="pkgTotal">0</div><div class="stat-l">encomendas</div></div></div><button type="button" class="textbtn" id="clearBtn" disabled>Limpar tudo</button></div>
+          <div class="summary-bottom"><div class="stats"><div><div class="stat-n" id="aptTotal">0</div><div class="stat-l">apartamentos</div></div><div class="divider"></div><div><div class="stat-n" id="pkgTotal">0</div><div class="stat-l">encomendas</div></div></div><button type="button" class="textbtn clear-action" id="clearBtn" disabled>Limpar tudo</button></div>
           <div class="auto-clear">
             <label class="auto-clear-head" for="cleanupMode">⏱️ Limpeza automática da lista</label>
             <div class="auto-fields">
@@ -235,7 +363,7 @@
         </section>
       </div>
     </main>
-    <p class="footnote">Versão 3.0 • Funciona no navegador e, depois de instalado, offline para montar avisos. As seleções, os recados e as configurações ficam somente neste aparelho; uma lista pode expirar conforme o prazo escolhido.</p>
+    <p class="footnote">Versão 4.0 • Funciona no navegador e, depois de instalado, offline para montar avisos. As seleções, os recados e as configurações ficam somente neste aparelho; uma lista pode expirar conforme o prazo escolhido.</p>
   </div>
 
   <div class="mobilebar" role="group" aria-label="Ações rápidas"><button class="btn btn-alt copy-action" type="button" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>Copiar texto</button><button class="btn btn-main share-action" type="button" disabled><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5a11.65 11.65 0 0 0-18.3 14L.6 23.4l6-1.6A11.64 11.64 0 1 0 20.5 3.5ZM12.3 21a9.6 9.6 0 0 1-4.9-1.35l-.36-.21-3.55.93.95-3.46-.24-.38a9.62 9.62 0 1 1 8.1 4.47Zm5.28-7.12c-.29-.15-1.7-.84-1.97-.94-.26-.1-.45-.15-.64.14-.2.3-.74.94-.91 1.14-.16.2-.33.22-.62.07-.28-.14-1.2-.44-2.28-1.4-.85-.75-1.42-1.68-1.58-1.97-.17-.28-.02-.44.13-.58.13-.13.29-.34.43-.5.14-.17.19-.28.28-.47.1-.2.05-.36-.02-.5-.07-.15-.64-1.55-.88-2.12-.23-.56-.47-.48-.64-.49h-.55c-.19 0-.5.07-.77.36-.26.29-1 1-1 2.42s1.03 2.8 1.17 3c.14.19 2.01 3.08 4.87 4.32.68.3 1.22.48 1.64.62.7.22 1.34.19 1.85.11.56-.09 1.7-.7 1.94-1.37.24-.67.24-1.25.17-1.37-.08-.13-.27-.2-.56-.35Z"/></svg>WhatsApp</button></div>
@@ -247,6 +375,7 @@
     <div class="walk-step"><div class="walk-n">3</div><div><strong>Confirme a lista</strong><p>Toque em WhatsApp, Copiar ou Imagem. Aparece uma conferência final com cada apartamento e a quantidade de encomendas. Só continua após você confirmar.</p></div></div>
     <div class="walk-step"><div class="walk-n">4</div><div><strong>Limpe com um toque ou automaticamente</strong><p>Toque em “Limpar tudo” ou configure “Após X horas” / “Todos os dias em um horário”. Ao vencer, a lista é limpa quando o app estiver aberto ou ao reabri-lo.</p></div></div>
     <div class="walk-step"><div class="walk-n">5</div><div><strong>Defina um recado fixo</strong><p>Em “Pronto para avisar”, ative ou desative o recado. Escolha um texto pronto, como “Retirar até as 17h”, ou escreva sua própria mensagem. Ela ficará salva.</p></div></div>
+    <div class="walk-step"><div class="walk-n">6</div><div><strong>Escolha o visual</strong><p>Toque em “Modo escuro” no topo para mudar as cores. O celular lembra sua escolha.</p></div></div>
     <div style="font-size:12px;color:#5c6d87;margin-top:16px">📱 Dica: no celular você pode instalar na tela inicial pelo botão <strong>Como instalar</strong>.</div><button type="button" class="modal-cta" id="startBtn">Entendi, começar</button>
   </div></dialog>
 
@@ -289,7 +418,7 @@
         documento: 'Apresente identificação ao retirar a encomenda.',
         proximoDia: 'Após o horário de funcionamento, retirar no próximo dia útil.'
       };
-      const initial = { selected:{}, activeBlock:'A', includeDate:true, note:'Favor retirar na portaria.', noteEnabled:true, cleanupMode:'off', cleanupHours:24, cleanupTime:'20:00', selectionStartedAt:null };
+      const initial = { selected:{}, activeBlock:'A', includeDate:true, note:'Favor retirar na portaria.', noteEnabled:true, cleanupMode:'off', cleanupHours:24, cleanupTime:'20:00', selectionStartedAt:null, theme:'light' };
       let state = {...initial};
       try {
         const data = JSON.parse(localStorage.getItem(STORAGE) || '{}');
@@ -299,6 +428,7 @@
         }
         state.selected = cleaned;
         if(BLOCKS.includes(data.activeBlock)) state.activeBlock = data.activeBlock;
+        if(data.theme==='dark' || data.theme==='light') state.theme=data.theme;
         if(typeof data.includeDate === 'boolean') state.includeDate = data.includeDate;
         if(typeof data.note === 'string') state.note = data.note.slice(0,200);
         state.noteEnabled = typeof data.noteEnabled === 'boolean' ? data.noteEnabled : Boolean(state.note.trim());
@@ -311,6 +441,16 @@
       if(Object.keys(state.selected).length && !state.selectionStartedAt) state.selectionStartedAt=Date.now();
       if(!Object.keys(state.selected).length) state.selectionStartedAt=null;
       const persist = () => { try { localStorage.setItem(STORAGE, JSON.stringify(state)); } catch(_) {} };
+      function applyTheme(){
+        document.documentElement.dataset.theme=state.theme;
+        const dark=state.theme==='dark', btn=$('themeToggle');
+        btn.textContent=dark?'☀️ Modo claro':'🌙 Modo escuro';
+        btn.setAttribute('aria-label', dark?'Ativar modo claro':'Ativar modo escuro');
+        btn.setAttribute('aria-pressed',String(dark));
+        document.querySelector('meta[name="theme-color"]').setAttribute('content',dark?'#101624':'#eef3fa');
+      }
+      $('themeToggle').addEventListener('click',()=>{state.theme=state.theme==='dark'?'light':'dark';applyTheme();persist();});
+      applyTheme();
       function cleanupDeadline(){
         if(!state.selectionStartedAt || state.cleanupMode==='off') return null;
         if(state.cleanupMode==='hours') return state.selectionStartedAt + state.cleanupHours*3600000;
@@ -418,7 +558,8 @@
         $('aptTotal').textContent=entries.length;
         $('pkgTotal').textContent=totalPackages();
         $('previewCount').textContent=labelCount(entries.length,'apartamento','apartamentos');
-        $('clearBtn').disabled=!entries.length;
+        document.querySelectorAll('.clear-action').forEach(btn=>btn.disabled=!entries.length);
+        $('clearCount').textContent=labelCount(entries.length,'selecionado','selecionados');
         document.querySelectorAll('.copy-action,.share-action').forEach(btn=>btn.disabled=!entries.length);
         $('downloadImage').disabled=!entries.length;
         $('shareImage').disabled=!entries.length;
@@ -646,7 +787,7 @@
       $('openHelp').addEventListener('click',()=>openDialog($('helpDialog')));
       $('startBtn').addEventListener('click',()=>{closeDialog($('helpDialog'));try{localStorage.setItem('avisos_condominio_tutorial_v1','yes')}catch(_){}});
       document.querySelectorAll('[data-close]').forEach(btn=>btn.addEventListener('click',()=>closeDialog($(btn.dataset.close))));
-      $('clearBtn').addEventListener('click',()=>openDialog($('clearDialog')));
+      document.querySelectorAll('.clear-action').forEach(btn=>btn.addEventListener('click',()=>{if(aptEntries().length)openDialog($('clearDialog'));}));
       $('confirmClear').addEventListener('click',()=>{resetList();render();closeDialog($('clearDialog'));toast('Lista limpa! Pronta para um novo aviso.');});
       // O navegador não executa temporizadores com o app fechado. Ao voltar, conferimos o prazo salvo.
       window.addEventListener('focus',expireSelections);
